@@ -1,16 +1,11 @@
 using AutoMapper;
-using Core.Intefaces;
-using Core.Specifications;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System.Linq;
-using Web.Errors;
+using Web.Extensions;
 using Web.Helpers;
 using Web.Middleware;
 
@@ -30,34 +25,14 @@ namespace Web
         {
             services.AddControllers();
 
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.InvalidModelStateResponseFactory = context =>
-                {
-                    var modelErrors = context.ModelState
-                        .Where(x => x.Value.Errors.Count > 0)
-                        .SelectMany(x => x.Value.Errors)
-                        .Select(e => e.ErrorMessage)
-                        .ToArray();
+            services.AddServices();
 
-                    var response = new ValidationErrorsResponse { Errors = modelErrors };
-
-                    return new BadRequestObjectResult(response);
-                };
-            });
+            services.AddAutoMapper(typeof(MappingProfiles));
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-
-            services.AddAutoMapper(typeof(MappingProfiles));
-
-            services.AddScoped(typeof(IAsyncRepository<>), typeof(AsyncRepository<>));
-
-            services.AddScoped<IProductRepository, ProductRepository>();
-
-            services.AddScoped(typeof(ISpecification<>), typeof(Specification<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
