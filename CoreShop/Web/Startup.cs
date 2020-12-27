@@ -4,11 +4,15 @@ using Core.Specifications;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Linq;
+using Web.Errors;
 using Web.Helpers;
+using Web.Middleware;
 
 namespace Web
 {
@@ -25,6 +29,22 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var modelErrors = context.ModelState
+                        .Where(x => x.Value.Errors.Count > 0)
+                        .SelectMany(x => x.Value.Errors)
+                        .Select(e => e.ErrorMessage)
+                        .ToArray();
+
+                    var response = new ValidationErrorsResponse { Errors = modelErrors };
+
+                    return new BadRequestObjectResult(response);
+                };
+            });
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -43,10 +63,11 @@ namespace Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            // Handles internal server error
+            app.UseMiddleware<ExceptionMiddleware>();
+
+            // Handles end point not found
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseHttpsRedirection();
 

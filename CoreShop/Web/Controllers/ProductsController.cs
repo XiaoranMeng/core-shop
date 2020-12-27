@@ -9,9 +9,8 @@ using Web.DTOs;
 
 namespace Web.Controllers
 {
-    [ApiController]
-    [Route("api/products")]
-    public class ProductsController : ControllerBase
+    
+    public class ProductsController : BaseController
     {
         private readonly IAsyncRepository<Product> _productRepository;
         private readonly IAsyncRepository<ProductBrand> _brandRepository;
