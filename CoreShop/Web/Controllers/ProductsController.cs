@@ -35,15 +35,17 @@ namespace Web.Controllers
         {
             var specification = new ProductWithBrandsAndTypesSpecification(id);
             var product = await _productRepository.GetByIdAsync(specification);
-            return _mapper.Map<Product, ProductDTO>(product);
+            var response = _mapper.Map<Product, ProductDTO>(product);
+            return response;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProducts()
+        public async Task<ActionResult<IReadOnlyList<ProductDTO>>> GetProducts()
         {
             var specification = new ProductsWithBrandsAndTypesSpecification();
             var products = await _productRepository.GetListAsync(specification);
-            return Ok(products);
+            var response = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDTO>>(products);
+            return Ok(response);
         }
 
         [HttpGet("brands")]
