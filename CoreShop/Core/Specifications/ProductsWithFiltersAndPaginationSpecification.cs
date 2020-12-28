@@ -2,17 +2,23 @@
 
 namespace Core.Specifications
 {
-    public class ProductsWithBrandsAndTypesSpecification : Specification<Product>
+    public class ProductsWithFiltersAndPaginationSpecification : Specification<Product>
     {
-        public ProductsWithBrandsAndTypesSpecification(string orderBy)
+        public ProductsWithFiltersAndPaginationSpecification(ProductSpecificationParameters parameters)
+            : base(p =>
+                !parameters.BrandId.HasValue || p.ProductBrandId == parameters.BrandId &&
+                !parameters.TypeId.HasValue || p.ProductTypeId == parameters.TypeId)
         {
             AddInclude(p => p.ProductBrand);
             AddInclude(p => p.ProductType);
             AddOrderBy(p => p.Name);
+            ApplyPagination(
+                parameters.PageSize * (parameters.PageIndex - 1),
+                parameters.PageSize);
 
-            if (!string.IsNullOrEmpty(orderBy))
+            if (!string.IsNullOrEmpty(parameters.OrderBy))
             {
-                switch (orderBy)
+                switch (parameters.OrderBy)
                 {
                     case "priceAsc":
                         AddOrderBy(p => p.Price);
@@ -28,3 +34,4 @@ namespace Core.Specifications
         }
     }
 }
+

@@ -13,5 +13,7 @@ namespace Core.Intefaces
         Task<T> GetItemByIdAsync(int id);
 
         Task<IReadOnlyList<T>> GetItemsAsync();
+
+        Task<int> CountAsync(ISpecification<T> specification);
     }
 }

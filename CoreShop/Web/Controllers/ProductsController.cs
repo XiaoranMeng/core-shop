@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Web.DTOs;
+using Web.Helpers;
 
 namespace Web.Controllers
 {
@@ -32,18 +33,29 @@ namespace Web.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductDTO>> GetProduct(int id)
         {
-            var specification = new ProductWithBrandsAndTypesSpecification(id);
-            var product = await _productRepository.GetByIdAsync(specification);
+            var product = await _productRepository.GetByIdAsync(
+                new ProductWithBrandsAndTypesSpecification(id));
+
             var response = _mapper.Map<Product, ProductDTO>(product);
+
             return response;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductDTO>>> GetProducts(string orderBy)
+        public async Task<ActionResult<PaginatedViewModel<ProductDTO>>> GetProducts(
+            [FromQuery] ProductSpecificationParameters parameters)
         {
-            var specification = new ProductsWithBrandsAndTypesSpecification(orderBy);
-            var products = await _productRepository.GetListAsync(specification);
-            var response = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDTO>>(products);
+            var products = await _productRepository.GetListAsync(
+                new ProductsWithFiltersAndPaginationSpecification(parameters));
+
+            var count = await _productRepository.CountAsync(
+                new ProductsWithFiltersAndCountSpecification(parameters));
+
+            var productDTOs = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDTO>>(products);
+            
+            var response = new PaginatedViewModel<ProductDTO>(
+                parameters.PageIndex, parameters.PageSize, count, productDTOs);
+
             return Ok(response);
         }
 
@@ -51,6 +63,7 @@ namespace Web.Controllers
         public async Task<ActionResult<List<ProductBrand>>> GetProductBrands()
         {
             var brands = await _brandRepository.GetItemsAsync();
+
             return Ok(brands);
         }
 
@@ -58,6 +71,7 @@ namespace Web.Controllers
         public async Task<ActionResult<List<ProductType>>> GetProductTypes()
         {
             var types = await _typeRepository.GetItemsAsync();
+
             return Ok(types);
         }
     }

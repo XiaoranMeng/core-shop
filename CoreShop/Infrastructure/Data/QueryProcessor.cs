@@ -8,7 +8,7 @@ namespace Infrastructure.Data
     public class QueryProcessor<T> where T : Entity
     {
         public static IQueryable<T> ApplySpecification(
-            IQueryable<T> query, 
+            IQueryable<T> query,
             ISpecification<T> specification)
         {
             if (specification.Predicate != null)
@@ -24,6 +24,13 @@ namespace Infrastructure.Data
             if (specification.OrderByDescending != null)
             {
                 query = query.OrderByDescending(specification.OrderByDescending);
+            }
+
+            if (specification.IsPagingEnabled)
+            {
+                query = query
+                    .Skip(specification.Skip)
+                    .Take(specification.Take);
             }
 
             query = specification.Includes.Aggregate(query, (current, expression) => 
