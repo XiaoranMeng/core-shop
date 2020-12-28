@@ -29,20 +29,20 @@ namespace Infrastructure.Data
 
         public async Task<T> GetByIdAsync(ISpecification<T> specification)
         {
-            return await GenerateQuery(specification).FirstOrDefaultAsync();
+            return await CreateQuery(specification).FirstOrDefaultAsync();
         }
 
         public async Task<IReadOnlyList<T>> GetListAsync(ISpecification<T> specification)
         {
-            return await GenerateQuery(specification).ToListAsync();
+            return await CreateQuery(specification).ToListAsync();
         }
 
         public async Task<int> CountAsync(ISpecification<T> specification)
         {
-            return await GenerateQuery(specification).CountAsync();
+            return await CreateQuery(specification).CountAsync();
         }
 
-        private IQueryable<T> GenerateQuery(ISpecification<T> specification)
+        private IQueryable<T> CreateQuery(ISpecification<T> specification)
         {
             return QueryProcessor<T>.ApplySpecification(_context.Set<T>().AsQueryable(), specification);
         }
