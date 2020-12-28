@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    public partial class EntitiesAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,10 +40,10 @@ namespace Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductTypeId = table.Column<int>(nullable: false),
                     ProductBrandId = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(nullable: false),
-                    PictureUrl = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    Description = table.Column<string>(nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PictureUrl = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

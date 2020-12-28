@@ -3,7 +3,7 @@
     public class ProductSpecificationParameters
     {
         private const int MAX_PAGE_SIZE = 50;
-        private int _pageSize = 6;
+        private int _pageSize = 50;
         private string _search;
 
         public string Search 

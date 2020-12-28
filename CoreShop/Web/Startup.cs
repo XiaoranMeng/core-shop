@@ -29,9 +29,14 @@ namespace Web
 
             services.AddAutoMapper(typeof(MappingProfiles));
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //{
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            //});
+
+            services.AddDbContext<ApplicationDbContext>(x =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
 
             services.AddCors(options =>
@@ -41,7 +46,7 @@ namespace Web
                     policy
                         .AllowAnyHeader()
                         .AllowAnyMethod()
-                        .WithOrigins("https://localhost:4200");
+                        .WithOrigins("http://localhost:4200");
                 });
             });
         }

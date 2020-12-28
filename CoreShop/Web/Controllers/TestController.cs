@@ -16,9 +16,14 @@ namespace Web.Controllers
         [HttpGet("notfound")]
         public ActionResult GetNotFoundRequest()
         {
-            return _context.Products.Find(100) is null 
-                ? NotFound(new ResponseBody(404)) 
-                : Ok();
+            var product = _context.Products.Find(100);
+
+            if (product is null)
+            {
+                return NotFound(new ResponseBody(404));
+            }
+             
+            return Ok();
         }
 
         [HttpGet("servererror")]

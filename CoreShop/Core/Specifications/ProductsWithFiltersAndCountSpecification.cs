@@ -6,9 +6,9 @@ namespace Core.Specifications
     {
         public ProductsWithFiltersAndCountSpecification(ProductSpecificationParameters parameters)
             : base(p =>
-                string.IsNullOrEmpty(parameters.Search) || p.Name.ToLower().Contains(parameters.Search) &&
-                !parameters.BrandId.HasValue || p.ProductBrandId == parameters.BrandId &&
-                !parameters.TypeId.HasValue || p.ProductTypeId == parameters.TypeId)
+                (string.IsNullOrEmpty(parameters.Search) || p.Name.ToLower().Contains(parameters.Search)) &&
+                (parameters.BrandId == 0 || p.ProductBrandId == parameters.BrandId) &&
+                (parameters.TypeId == 0 || p.ProductTypeId == parameters.TypeId))
         {
 
         }

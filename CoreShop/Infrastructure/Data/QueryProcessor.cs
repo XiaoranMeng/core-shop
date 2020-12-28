@@ -8,9 +8,11 @@ namespace Infrastructure.Data
     public class QueryProcessor<T> where T : Entity
     {
         public static IQueryable<T> ApplySpecification(
-            IQueryable<T> query,
+            IQueryable<T> input,
             ISpecification<T> specification)
         {
+            var query = input;
+
             if (specification.Predicate != null)
             {
                 query = query.Where(specification.Predicate);
@@ -28,13 +30,10 @@ namespace Infrastructure.Data
 
             if (specification.IsPagingEnabled)
             {
-                query = query
-                    .Skip(specification.Skip)
-                    .Take(specification.Take);
+                query = query.Skip(specification.Skip).Take(specification.Take);
             }
 
-            query = specification.Includes.Aggregate(query, (current, expression) => 
-                current.Include(expression));
+            query = specification.Includes.Aggregate(query, (current, include) => current.Include(include));
 
             return query;
         }
