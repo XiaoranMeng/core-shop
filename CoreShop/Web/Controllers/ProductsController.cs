@@ -39,9 +39,9 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductDTO>>> GetProducts()
+        public async Task<ActionResult<IReadOnlyList<ProductDTO>>> GetProducts(string orderBy)
         {
-            var specification = new ProductsWithBrandsAndTypesSpecification();
+            var specification = new ProductsWithBrandsAndTypesSpecification(orderBy);
             var products = await _productRepository.GetListAsync(specification);
             var response = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDTO>>(products);
             return Ok(response);
