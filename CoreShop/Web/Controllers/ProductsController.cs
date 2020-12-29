@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Web.DTOs;
+using Web.Errors;
 using Web.Helpers;
 
 namespace Web.Controllers
@@ -35,6 +36,11 @@ namespace Web.Controllers
         {
             var product = await _productRepository.GetByIdAsync(
                 new ProductWithBrandsAndTypesSpecification(id));
+
+            if (product is null)
+            {
+                return NotFound(new ResponseBody(404));
+            }
 
             var response = _mapper.Map<Product, ProductDTO>(product);
 
