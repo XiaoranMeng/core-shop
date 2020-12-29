@@ -2,14 +2,18 @@
     <div class="row">
         <section class="col-2 mt-3">
             <h5 class="text-warning ml-3">Order By</h5>
-            <select class="custom-select mb-3" (change)="onOrderBySelected($event.target.value)">
-                <option [value]="orderBy.value" *ngFor="let orderBy of orderByOptions">{{orderBy.name}}</option>
+            <select 
+                class="custom-select mb-3" 
+                style="cursor: pointer;" 
+                (change)="onOrderBySelected($event.target.value)"
+            ><option [value]="orderBy.value" *ngFor="let orderBy of orderByOptions">{{orderBy.name}}</option>
             </select>
 
             <h5 class="text-warning ml-3">Brands</h5>
             <ul class="list-group my-3">
                 <li 
                     class="list-group-item" 
+                    style="cursor: pointer;"
                     *ngFor="let brand of brands"
                     [class.active]="brand.id === shopParams.brandId"
                     [value]="brand.id"
@@ -19,7 +23,8 @@
             <h5 class="text-warning ml-3">Types</h5>
             <ul class="list-group my-3">
                 <li 
-                    class="list-group-item" 
+                    class="list-group-item"
+                    style="cursor: pointer;"
                     *ngFor="let type of types"
                     [class.active]="type.id === shopParams.typeId"
                     [value]="type.id"
