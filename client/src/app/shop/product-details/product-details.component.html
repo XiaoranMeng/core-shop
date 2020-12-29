@@ -1,0 +1,36 @@
+<div class="row" *ngIf="product">
+    <div class="col-7">
+        <img src="{{product.pictureUrl}}" alt="{{product.name}}" class="img-fluid w-100">
+    </div>
+    <div class="col-4 mt-5">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <h4 class="text-uppercase">{{product.name}}</h4>
+            </li>
+            <li class="list-group-item">{{product.description}}</li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">Price</div>
+                    <div class="col text-success">
+                        {{product.price | currency}}
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">Quantity</div>
+                    <div class="col">
+                        <div class="d-flex justify-content-start align-items-center">
+                            <i class="fa fa-minus-circle text-warning mr-3" style="cursor: pointer;"></i>
+                            <span class="font-weight-bold">2</span>
+                            <i class="fa fa-plus-circle text-warning mx-3" style="cursor: pointer;"></i>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <div class="d-flex justify-content-center mt-4">
+                <button class="btn btn-primary btn-block w-50">Add to Cart</button>
+            </div>
+        </ul>
+    </div>
+</div>
