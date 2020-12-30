@@ -14,7 +14,9 @@ namespace Web.Extensions
             services.AddScoped(typeof(IAsyncRepository<>), typeof(AsyncRepository<>));
             
             services.AddScoped<IProductRepository, ProductRepository>();
-            
+
+            services.AddScoped<ICartRepository, CartRepository>();
+
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.InvalidModelStateResponseFactory = context =>
