@@ -1,6 +1,6 @@
 <div class="container mt-5">
     <div class="row" *ngIf="product">
-        <div class="col-7">
+        <div class="col-6 mr-2">
             <img src="{{product.pictureUrl}}" alt="{{product.name}}" class="img-fluid w-100">
         </div>
         <div class="col-4 mt-5">
@@ -22,15 +22,18 @@
                         <div class="col">Quantity</div>
                         <div class="col">
                             <div class="d-flex justify-content-start align-items-center">
-                                <i class="fa fa-minus-circle text-warning mr-3" style="cursor: pointer;"></i>
-                                <span class="font-weight-bold">2</span>
-                                <i class="fa fa-plus-circle text-warning mx-3" style="cursor: pointer;"></i>
+                                <i (click)="decrementQuantity()" class="fa fa-minus-circle text-warning mr-3" style="cursor: pointer;"></i>
+                                <span class="font-weight-bold">{{quantity}}</span>
+                                <i (click)="incrementQuantity()" class="fa fa-plus-circle text-warning mx-3" style="cursor: pointer;"></i>
                             </div>
                         </div>
                     </div>
                 </li>
                 <div class="d-flex justify-content-center mt-4">
                     <button class="btn btn-primary btn-block w-50">Add to Cart</button>
+                </div>
+                <div *ngIf="counter < 0" class="d-flex justify-content-center mt-4">
+                    <span class="text-danger">Sorry! You gotta put at least 1 in the cart</span>
                 </div>
             </ul>
         </div>

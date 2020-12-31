@@ -1,0 +1,18 @@
+<div class="px-4 text-uppercase">Your Order Summary</div>
+<div class="p-4">
+    <p class="text-success">Shipping costs will be added in the checkout section</p>
+    <ul class="list-unstyled mb-4" *ngIf="(cartTotal$ | async) as cartTotal">
+        <li class="d-flex justify-content-between py-3 border-bottom">
+            <strong class="text-muted">Subtotal</strong>
+            <strong>{{cartTotal.subtotal | currency}}</strong>
+        </li>
+        <li class="d-flex justify-content-between py-3 border-bottom">
+            <strong class="text-muted">Shipping</strong>
+            <strong>{{cartTotal.shipping | currency}}</strong>
+        </li>
+        <li class="d-flex justify-content-between py-3 border-bottom">
+            <strong class="text-muted">Total</strong>
+            <strong>{{cartTotal.total | currency}}</strong>
+        </li>
+    </ul>
+</div>

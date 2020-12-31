@@ -21,6 +21,7 @@ namespace Web.Controllers
             return Ok(cart ?? new Cart(id));
         }
 
+        [HttpPost]
         public async Task<ActionResult<Cart>> CreateOrUpdateCart(Cart other)
         {
             var cart = await _cartRepository.CreateOrUpdateCartAsync(other);

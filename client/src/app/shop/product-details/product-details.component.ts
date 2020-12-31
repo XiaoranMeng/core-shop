@@ -1,3 +1,4 @@
+import { CartService } from './../../cart/cart.service';
 import { ShopService } from './../shop.service';
 import { IProduct } from './../../shared/models/product';
 import { Component, OnInit } from '@angular/core';
@@ -11,12 +12,15 @@ import { BreadcrumbService } from 'xng-breadcrumb';
 })
 export class ProductDetailsComponent implements OnInit {
   product: IProduct;
+  quantity = 1;
+  counter = 0;
 
   constructor(
     private shopService: ShopService,
     private activatedRoute: ActivatedRoute,
-    private breadCrumbService: BreadcrumbService) {
-      this.breadCrumbService.set('@productDetails', "")
+    private breadCrumbService: BreadcrumbService,
+    private cartService: CartService) {
+      this.breadCrumbService.set('@productDetails', '');
   }
 
   ngOnInit(): void {
@@ -33,5 +37,20 @@ export class ProductDetailsComponent implements OnInit {
     });
   }
 
+  addToCart() {
+    this.cartService.addToCart(this.product, this.quantity);
+  }
 
+  incrementQuantity() {
+    this.quantity++;
+    this.counter = 0;
+  }
+
+  decrementQuantity() {
+    if (this.quantity > 1) {
+      this.quantity--;
+    } else {
+      this.counter--;
+    }
+  }
 }
