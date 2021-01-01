@@ -1,5 +1,8 @@
+using Core.Entities.Identity;
 using Infrastructure.Data;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,10 +24,15 @@ namespace Web
                 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
 
                 try
-                {
-                    var context = services.GetRequiredService<ApplicationDbContext>();
-                    await context.Database.MigrateAsync();
-                    await DbContextSeeder.SeedAsync(context, loggerFactory);
+                { 
+                    var applicationContext = services.GetRequiredService<ApplicationDbContext>();
+                    await applicationContext.Database.MigrateAsync();
+                    await DbContextSeeder.SeedAsync(applicationContext, loggerFactory);
+
+                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                    var identityContext = services.GetRequiredService<ApplicationIdentityDbContext>();
+                    await identityContext.Database.MigrateAsync();
+                    await ApplicationIdentityDbContextSeeder.SeedAsync(userManager);
                 }
                 catch (Exception ex)
                 {

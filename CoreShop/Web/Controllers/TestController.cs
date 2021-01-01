@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Errors;
 
@@ -11,6 +12,13 @@ namespace Web.Controllers
         public TestController(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        [Authorize]
+        [HttpGet("testauth")]
+        public ActionResult<string> GetSecretText()
+        {
+            return "secret text";
         }
 
         [HttpGet("notfound")]

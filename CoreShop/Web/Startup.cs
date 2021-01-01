@@ -1,5 +1,6 @@
 using AutoMapper;
 using Infrastructure.Data;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -26,18 +27,20 @@ namespace Web
         {
             services.AddControllers();
 
-            services.AddServices();
+            services.AddApplicationServices();
+
+            services.AddIdentityServices(Configuration);
 
             services.AddAutoMapper(typeof(MappingProfiles));
-
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //{
-            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            //});
 
             services.AddDbContext<ApplicationDbContext>(x =>
             {
                 x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddDbContext<ApplicationIdentityDbContext>(x =>
+            {
+                x.UseSqlite(Configuration.GetConnectionString("IdentityConnection"));
             });
 
             services.AddSingleton<IConnectionMultiplexer>(provider =>
@@ -74,6 +77,8 @@ namespace Web
             app.UseStaticFiles();
 
             app.UseCors("CorsPolicy");
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
