@@ -15,9 +15,11 @@ namespace Web.Helpers
                 .ForMember(destination => destination.ProductType, options =>
                     options.MapFrom(source => source.ProductType.Name))
                 .ForMember(destination => destination.PictureUrl, options =>
-                    options.MapFrom<ProductPictureUrlResolver>());
-            CreateMap<Address, AddressDTO>()
+                    options.MapFrom<ProductPictureUrlResolver>())
                 .ReverseMap();
+            CreateMap<Address, AddressDTO>().ReverseMap();
+            CreateMap<Cart, CartDTO>().ReverseMap();
+            CreateMap<CartItem, CartItemDTO>().ReverseMap();
         }
     }
 }

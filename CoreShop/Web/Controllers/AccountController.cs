@@ -101,8 +101,17 @@ namespace Web.Controllers
             };
         }
 
+        [HttpPost("register")]
         public async Task<ActionResult<ApplicationUserDTO>> Register(RegistrationDTO registrationDTO)
         {
+            if (CheckEmailExists(registrationDTO.Email).Result.Value)
+            {
+                return new BadRequestObjectResult(new ValidationErrorsResponse 
+                { 
+                    Errors = new[] { "Email address is in use" } 
+                });
+            }
+
             var user = new ApplicationUser
             {
                 UserName = registrationDTO.Email,
