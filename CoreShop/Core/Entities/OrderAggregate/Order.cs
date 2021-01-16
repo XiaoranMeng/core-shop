@@ -14,7 +14,7 @@ namespace Core.Entities.OrderAggregate
         {
             OrderItems = orderItems;
             BuyerEmail = buyerEmail;
-            ShoppingAddress = shoppingAddress;
+            ShippingAddress = shoppingAddress;
             DeliveryMethod = deliveryMethod;
             Subtotal = subtotal;
         }
@@ -27,7 +27,7 @@ namespace Core.Entities.OrderAggregate
 
         public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.Now;
 
-        public Address ShoppingAddress { get; set; }
+        public Address ShippingAddress { get; set; }
 
         public DeliveryMethod DeliveryMethod { get; set; }
 
