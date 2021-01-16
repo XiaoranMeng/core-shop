@@ -22,9 +22,9 @@ namespace Web.Extensions
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
-                options.InvalidModelStateResponseFactory = context =>
+                options.InvalidModelStateResponseFactory = actionContext =>
                 {
-                    var modelErrors = context.ModelState
+                    var modelErrors = actionContext.ModelState
                         .Where(x => x.Value.Errors.Count > 0)
                         .SelectMany(x => x.Value.Errors)
                         .Select(e => e.ErrorMessage)

@@ -1,8 +1,8 @@
 <div class="container my-3">
     <div class="row">
-        <section class="col-2 mt-3 mr-1">
+        <section class="col-2 mt-4 mr-1">
             <ng-container *ngIf="types && brands">
-                <h5 class="text-warning ml-3">Order By</h5>
+                <h5 class="text-warning ml-3 my-2">Order By</h5>
                 <select 
                     class="custom-select mb-3" 
                     style="cursor: pointer;" 
@@ -10,8 +10,8 @@
                 ><option [value]="orderBy.value" *ngFor="let orderBy of orderByOptions">{{orderBy.name}}</option>
                 </select>
 
-                <h5 class="text-warning ml-3">Brands</h5>
-                <ul class="list-group my-3">
+                <h5 class="text-warning ml-3 mt-2">Brands</h5>
+                <ul class="list-group my-4">
                     <li 
                         class="list-group-item" 
                         style="cursor: pointer;"
@@ -21,8 +21,8 @@
                         (click)="onBrandSelected(brand.id)"
                     >{{brand.name}}</li>
                 </ul>
-                <h5 class="text-warning ml-3">Categories</h5>
-                <ul class="list-group my-3">
+                <h5 class="text-warning ml-3 mt-2">Categories</h5>
+                <ul class="list-group my-4">
                     <li 
                         class="list-group-item"
                         style="cursor: pointer;"

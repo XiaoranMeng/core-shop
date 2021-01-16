@@ -38,7 +38,7 @@ namespace Web.Controllers
 
             return new ApplicationUserDTO
             {
-                DisplayNme = user.DisplayName,
+                DisplayName = user.DisplayName,
                 Email = user.Email,
                 Token = _tokenService.CreateToken(user)
             };
@@ -95,7 +95,7 @@ namespace Web.Controllers
 
             return new ApplicationUserDTO
             {
-                DisplayNme = user.DisplayName,
+                DisplayName = user.DisplayName,
                 Email = user.Email,
                 Token = _tokenService.CreateToken(user)
             };
@@ -128,7 +128,7 @@ namespace Web.Controllers
 
             return new ApplicationUserDTO
             {
-                DisplayNme = user.DisplayName,
+                DisplayName = user.DisplayName,
                 Email = user.Email,
                 Token = _tokenService.CreateToken(user)
             };

@@ -10,7 +10,9 @@ export class LoadingInterceptor implements HttpInterceptor {
     constructor(private loader: LoaderService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        this.loader.load();
+        if (!req.url.includes('emailexists')) {
+            this.loader.load();
+        }
         return next.handle(req).pipe(
             delay(1000),
             finalize(() => {
