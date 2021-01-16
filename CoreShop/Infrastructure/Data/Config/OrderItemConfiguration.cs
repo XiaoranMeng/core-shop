@@ -8,7 +8,7 @@ namespace Infrastructure.Data.Config
     {
         public void Configure(EntityTypeBuilder<OrderItem> builder)
         {
-            builder.OwnsOne(o => o.itemOrdered, i => i.WithOwner());
+            builder.OwnsOne(o => o.ItemOrdered, i => i.WithOwner());
             builder.Property(o => o.Price).HasColumnType("decimal(18,2)");
         }
     }

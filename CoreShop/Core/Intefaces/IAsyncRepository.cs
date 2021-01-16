@@ -15,5 +15,11 @@ namespace Core.Intefaces
         Task<IReadOnlyList<T>> GetItemsAsync();
 
         Task<int> CountAsync(ISpecification<T> specification);
+
+        void Add(T entity);
+
+        void Update(T entity);
+
+        void Delete(T entity);
     }
 }

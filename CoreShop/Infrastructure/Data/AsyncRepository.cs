@@ -1,7 +1,6 @@
 ﻿using Core.Entities;
 using Core.Intefaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,22 +28,38 @@ namespace Infrastructure.Data
 
         public async Task<T> GetByIdAsync(ISpecification<T> specification)
         {
-            return await CreateQuery(specification).FirstOrDefaultAsync();
+            return await Query(specification).FirstOrDefaultAsync();
         }
 
         public async Task<IReadOnlyList<T>> GetListAsync(ISpecification<T> specification)
         {
-            return await CreateQuery(specification).ToListAsync();
+            return await Query(specification).ToListAsync();
         }
 
         public async Task<int> CountAsync(ISpecification<T> specification)
         {
-            return await CreateQuery(specification).CountAsync();
+            return await Query(specification).CountAsync();
         }
 
-        private IQueryable<T> CreateQuery(ISpecification<T> specification)
+        private IQueryable<T> Query(ISpecification<T> specification)
         {
             return QueryProcessor<T>.ApplySpecification(_context.Set<T>().AsQueryable(), specification);
+        }
+
+        public void Add(T entity)
+        {
+            _context.Set<T>().Add(entity);
+        }
+
+        public void Update(T entity)
+        {
+            _context.Set<T>().Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
+        }
+
+        public void Delete(T entity)
+        {
+            _context.Set<T>().Remove(entity);
         }
     }
 }

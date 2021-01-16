@@ -39,6 +39,10 @@ namespace Core.Entities.OrderAggregate
 
         public IReadOnlyList<OrderItem> OrderItems { get; set; }
 
+        /// <summary>
+        /// Automatically mapped to the Total property in OrderToReturnDTO
+        /// </summary>
+        /// <returns></returns>
         public decimal GetTotal()
         {
             return Subtotal + DeliveryMethod.Price;

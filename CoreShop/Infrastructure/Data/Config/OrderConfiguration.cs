@@ -9,7 +9,7 @@ namespace Infrastructure.Data.Config
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder.OwnsOne(o => o.ShoppingAddress, s => s.WithOwner());
+            builder.OwnsOne(o => o.ShippingAddress, s => s.WithOwner());
             builder.Property(o => o.Status).HasConversion(
                 s => s.ToString(), // destination
                 s => (OrderStatus)Enum.Parse(typeof(OrderStatus), s)); // source
